@@ -1,7 +1,7 @@
 #include "../includes/pipex.h"
 /* TODO
 *   - heredoc
-*   - If output file exists, it is not completely overwritten with new output data!
+*   - FIX: If first command fails, second command should still try to execute, like bash.
 */
 
 /* child:
@@ -107,7 +107,7 @@ int main(int ac, char **av, char **envp)
     if (ac < 5)
     {
         ft_putendl_fd("Pipex: Usage: ./pipex file1 cmd1 cmd2 file2.", STDOUT_FILENO);
-        return(-1);
+        return(EXIT_SUCCESS);
     }
     data = init(ac, av, envp);
     start_pipex(&data);

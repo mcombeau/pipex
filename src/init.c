@@ -37,7 +37,7 @@ t_data init(int ac, char **av, char **envp)
     data.fd_in = open(av[1], O_RDONLY, 644);
     if (data.fd_in == -1)
         exit_error("Pipex: Could not open input file", &data);
-    data.fd_out = open(av[ac - 1], O_WRONLY | O_CREAT, 0777);
+    data.fd_out = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
     if (data.fd_out == -1)
         exit_error("Pipex: Could not create or open output file", &data);
     return(data);
