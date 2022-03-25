@@ -8,7 +8,9 @@ LIBFT_PATH = libft/
 
 SRC	= pipex.c \
 	env_parsing.c \
-	utils.c
+	utils.c \
+	init.c \
+	debug.c
 SRCS = $(addprefix $(SRC_PATH), $(SRC))
 OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_PATH), $(OBJ))

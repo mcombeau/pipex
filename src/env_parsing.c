@@ -83,8 +83,8 @@ static char    *get_cmd_path(char *cmd, char **paths)
     {
         cmd_path = ft_strjoin(paths[i], cmd);
         if (!cmd_path)
-            error("Could not join path and command!\n");
-        if (access(cmd_path, F_OK) == 0)
+            exit_error("Could not join path and command!", NULL);
+        if (access(cmd_path, F_OK | X_OK) == 0)
             return (cmd_path);
         free_strs(cmd_path, NULL);
         i++;
