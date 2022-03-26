@@ -23,7 +23,7 @@ typedef struct s_data
 t_data init(int ac, char **av, char **envp);
 
 /*  env_parsing.c   */
-char    *get_cmd(char *cmd, char **envp);
+char    *get_cmd(char *cmd, t_data *data);
 
 /*  utils.c */
 void    exit_error(const char *errormsg, t_data *data);

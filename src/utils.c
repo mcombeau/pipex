@@ -37,6 +37,7 @@ void    free_strs(char *str, char **strs)
     if (str != NULL)
     {
         free(str);
+        str = NULL;
     }
     if (strs != NULL)
     {
@@ -47,5 +48,6 @@ void    free_strs(char *str, char **strs)
             i++;
         }
         free(strs);
+        strs = NULL;
     }
 }

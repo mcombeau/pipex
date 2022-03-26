@@ -40,7 +40,7 @@ static char    **make_usable_paths(char **paths)
     {
         tmp = paths[i];
         paths[i] = ft_strjoin(paths[i], "/");
-        free(tmp);
+        free_strs(tmp, NULL);
         i++;
     }
     return (paths);
@@ -59,7 +59,7 @@ static char    **get_env_paths(char **envp)
     if (!env_path_str)
         return (NULL);
     paths = ft_split(env_path_str, ':');
-    free(env_path_str);
+    free_strs(env_path_str, NULL);
     if (!paths)
         return (NULL);
     paths = make_usable_paths(paths);
@@ -83,14 +83,15 @@ static char    *get_cmd_path(char *cmd, char **paths)
     {
         cmd_path = ft_strjoin(paths[i], cmd);
         if (!cmd_path)
+        {
+            free_strs(NULL, paths);
             exit_error("Could not join path and command!", NULL);
+        }
         if (access(cmd_path, F_OK | X_OK) == 0)
             return (cmd_path);
         free_strs(cmd_path, NULL);
         i++;
     }
-    if (cmd_path)
-        free_strs(cmd_path, NULL);
     return (NULL);
 }
 
@@ -98,12 +99,14 @@ static char    *get_cmd_path(char *cmd, char **paths)
 *   Gets the given command path from the environment variables.
 *   Returns the command path, or NULL if no valid command path was found.
 */
-char    *get_cmd(char *cmd, char **envp)
+char    *get_cmd(char *cmd, t_data *data)
 {
     char    **env_paths;
     char    *cmd_path;
 
-    env_paths = get_env_paths(envp);
+    if (access(cmd, F_OK | X_OK) == 0)
+        return (ft_strdup(cmd));
+    env_paths = get_env_paths(data->envp);
     if (!env_paths)
         return (NULL);
     cmd_path = get_cmd_path(cmd, env_paths);

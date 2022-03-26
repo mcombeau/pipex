@@ -1,7 +1,12 @@
 #include "../includes/pipex.h"
 /* TODO
 *   - heredoc
-*   - FIX: If first command fails, second command should still try to execute, like bash.
+*   - FIX: Wait issue with children.
+        If cmd1 has infinite input, cmd2 must be able to execute its part.
+        ex: </dev/random cat | head -1
+        Issue with /dev/tty, too.
+        Rethink av loop in start_pipex, children must start simultaneously,
+        not one after the other.
 */
 
 /* child:
@@ -27,9 +32,12 @@ void    child(char *cmd, t_data *data, int lastchild)
     cmd_options = ft_split(cmd, ' ');
     if (!cmd_options)
         exit_error("Child: Command parsing", data);
-    cmd_path = get_cmd(cmd_options[0], data->envp);
+    cmd_path = get_cmd(cmd_options[0], data);
     if (!cmd_path)
-        exit_error("Child: Command path", data);
+    {
+        free_strs(cmd_path, cmd_options);
+        exit_error("Child: Command not found", data);
+    }
     if (execve(cmd_path, cmd_options, data->envp) == -1)
     {
         free_strs(cmd_path, cmd_options);
@@ -47,8 +55,7 @@ void    child(char *cmd, t_data *data, int lastchild)
 void    pipex(char *cmd, t_data *data, int lastchild)
 {
     pid_t   pid;
-    pid_t   wpid;
-    int     status;
+ //   int     status;
 
     if (pipe(data->pipe_fd) == -1)
         exit_error("Pipex: Pipe", data);
@@ -63,13 +70,15 @@ void    pipex(char *cmd, t_data *data, int lastchild)
             exit_error("Pipex: Close pipe_fd[1]", data);
         if (dup2(data->pipe_fd[0], STDIN_FILENO) == -1)
             exit_error("Pipex: Dup2 pipe_fd[0] STDIN", data);
-        wpid = waitpid(pid, &status, 0);
-        if (wpid == -1)
-            exit_error("Pipex: Waitpid", data);
-        if (!WIFEXITED(status))
-            exit_error("Pipex: WIFEXITED", data);
-        else if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-            exit_error("Pipex: WEXITSTATUS", data);
+//        perror("Waiting for child");
+//        perror(ft_itoa(pid));
+        waitpid(pid, NULL, 0);
+//        if (wpid == -1)
+//            exit_error("Pipex: Waitpid", data);
+//        if (!WIFEXITED(status))
+//            exit_error("Pipex: WIFEXITED", data);
+//        else if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+//            exit_error("Pipex: WEXITSTATUS", data);
         if (close(data->pipe_fd[0]) == -1)
             exit_error("Pipex: Close pipe_fd[0]", data);
     }
@@ -89,6 +98,7 @@ void    start_pipex(t_data *data)
     i = 2;
     while (i < data->ac - 1)
     {
+ //       perror(data->av[i]);
         if (i == data->ac - 2)
             pipex(data->av[i], data, 1);
         else
