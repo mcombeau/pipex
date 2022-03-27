@@ -1,6 +1,9 @@
 #include "../includes/pipex.h"
 /* TODO
 *   - heredoc
+*   - parent in a loop instead of loop in parent???!
+        to be able to wait for all children simultaneously instead of hanging
+        waiting for one...
 */
 
 /* redirect_io:
@@ -39,6 +42,7 @@ void    redirect_io(int input, int output, t_data *data)
     cmd_options = ft_split(data->av[data->child_index + 2], ' ');
     if (!cmd_options)
         exit_error(error_msg("unexpected error", "", "", EXIT_FAILURE), data);
+    perror(cmd_options[0]);
     cmd_path = get_cmd(cmd_options[0], data);
     if (!cmd_path)
     {
@@ -60,17 +64,28 @@ void    redirect_io(int input, int output, t_data *data)
 */
 int    parent(pid_t *pid, t_data *data)
 {
+    pid_t wpid;
     int status;
     int exit_code;
 
     close_pipe_fds(data);
+    printf("Parent: waiting for children...\n");
     data->child_index--;
     exit_code = 1;
     while(data->child_index >= 0)
     {
-        waitpid(pid[data->child_index], &status, 0);
-        if ((data->child_index == (data->ac - 4)) && WIFEXITED(status))
+        printf("Last child is %d\n", pid[data->ac - 4]);
+        printf("Waiting for child %d\n", pid[data->child_index]);
+        wpid = wait(&status);
+//        waitpid(pid[data->child_index], &status, 0);
+        printf("Got child %d\n", wpid);
+        if (wpid == pid[data->ac - 4])
+        {
+ //       if ((data->child_index == (data->ac - 4)) && WIFEXITED(status))
             exit_code = WEXITSTATUS(status);
+            printf("Got last child.\n");
+        }
+        printf("Didin't get last child, continuing...\n");
        data->child_index--;
     }
     return (exit_code);
@@ -91,7 +106,7 @@ int    pipex(t_data *data)
     data->child_index = 0;
     while (data->child_index < data->nb_cmds)
     {
-        
+        perror(ft_itoa(data->child_index));
         pid[data->child_index] = fork();
         if (pid[data->child_index] == -1)
             exit_error(error_msg("fork", ": ", strerror(errno), EXIT_FAILURE), data);
@@ -99,6 +114,7 @@ int    pipex(t_data *data)
             child(data);
         data->child_index++;
     }
+    perror("Pipex: All children launched.");
     exit_code = parent(pid, data);
     return(exit_code);
 }

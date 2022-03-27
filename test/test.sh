@@ -202,11 +202,11 @@ printf "${PURPLE}${BOLD}\n==================================\n"
 printf                   "|            BONUS               |"
 printf                  "\n==================================\n${NC}"
 printf "${YELLOW}${BOLD}\n============ TEST 1 ==============\n${NC}"
-printf "Basic function test.\n"
-printf "Shell command: ${BOLD}${BLUE}<$INPUT cat | wc -l > $OUTPUT_EXPECTED\n${NC}${YELLOW}"
-<$INPUT cat | wc -l > $OUTPUT_EXPECTED
-printf "${NC}Pipex command: ${BOLD}${BLUE}./pipex $INPUT \"cat\" \"wc -l\" $OUTPUT_PIPEX${NC}\n${RED}"
-./pipex $INPUT "cat" "wc -l" $OUTPUT_PIPEX
+printf "Handling 3 commands test.\n"
+printf "Shell command: ${BOLD}${BLUE}<$INPUT cat | grep PATH | wc -c > $OUTPUT_EXPECTED\n${NC}${YELLOW}"
+<$INPUT cat | grep PATH | wc -c > $OUTPUT_EXPECTED
+printf "${NC}Pipex command: ${BOLD}${BLUE}./pipex $INPUT \"cat\" \"grep PATH\" \"wc -c\" $OUTPUT_PIPEX${NC}\n${RED}"
+./pipex $INPUT "cat" "grep PATH" "wc -c" $OUTPUT_PIPEX
 printf "${NC}Output file: "
 if cmp -s $OUTPUT_EXPECTED $OUTPUT_PIPEX; then
     printf "${GREEN}${BOLD}OK!${NC}\n"
@@ -216,5 +216,5 @@ else
 fi
 if [ $LEAK_TOGGLE -eq 1 ]; then
     printf "Leak check:${CYAN}\n"
-    $VALGRIND ./pipex $INPUT "cat" "wc -l" $OUTPUT_PIPEX
+    $VALGRIND ./pipex $INPUT "cat" "grep PATH" "wc -l" $OUTPUT_PIPEX
 fi
