@@ -4,12 +4,20 @@
 *   In case of error, prints an error message and closes any open
 *   file descriptors.
 */
-void    exit_error(const char *errormsg, t_data *data)
+void    exit_error(int error_status, t_data *data)
 {
-    perror(errormsg);
     if (data)
         close_fds(data);
-    exit(EXIT_FAILURE);
+    exit(error_status);
+}
+
+int error_msg(char *str1, char *str2, char *str3, int erno)
+{
+    ft_putstr_fd("pipex: ", 2);
+    ft_putstr_fd(str1, 2);
+    ft_putstr_fd(str2, 2);
+    ft_putendl_fd(str3, 2);
+    return(erno);
 }
 
 /* close_fds:
@@ -25,6 +33,17 @@ void    close_fds (t_data *data)
         close(data->pipe_fd[0]);
     if (data->pipe_fd[1] != -1)
         close(data->pipe_fd[1]);
+}
+
+/* close_pipe_fds:
+*   Closes the pipe read and write file descriptors.
+*/
+void    close_pipe_fds(t_data *data)
+{
+    if (close(data->pipe_fd[0]) == -1)
+        exit_error(error_msg("Close pipe_fd[0]", ": ", strerror(errno), EXIT_FAILURE), data);
+    if (close(data->pipe_fd[1]) == -1)
+        exit_error(error_msg("Close pipe_fd", ": ", strerror(errno), EXIT_FAILURE), data);
 }
 
 /* free_strs:

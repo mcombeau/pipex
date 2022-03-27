@@ -85,7 +85,7 @@ static char    *get_cmd_path(char *cmd, char **paths)
         if (!cmd_path)
         {
             free_strs(NULL, paths);
-            exit_error("Could not join path and command!", NULL);
+            exit_error(error_msg("unexpected error", "", "", 1), NULL);
         }
         if (access(cmd_path, F_OK | X_OK) == 0)
             return (cmd_path);

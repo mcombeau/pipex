@@ -16,7 +16,8 @@ t_data  clean_init(void)
     data.fd_out = -1;
     data.pipe_fd[0] = -1;
     data.pipe_fd[1] = -1;
-
+    data.nb_cmds = -1;
+    data.child_index = -1;
     return (data);
 }
 
@@ -36,9 +37,10 @@ t_data init(int ac, char **av, char **envp)
     data.av = av;
     data.fd_in = open(av[1], O_RDONLY, 644);
     if (data.fd_in == -1)
-        exit_error(av[1], &data);
-    data.fd_out = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+        error_msg(av[1], ": ", strerror(errno), 1);
+    data.fd_out = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (data.fd_out == -1)
-        exit_error(av[ac - 1], &data);
+        exit_error(error_msg(av[ac - 1], ": ", strerror(errno), 1), &data);
+    data.nb_cmds = ac - 3;
     return(data);
 }
