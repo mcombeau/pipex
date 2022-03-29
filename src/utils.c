@@ -7,10 +7,17 @@
 void    exit_error(int error_status, t_data *data)
 {
     if (data)
+    {
         close_fds(data);
+        free(data->pipe_fd);
+    }
     exit(error_status);
 }
 
+/* error_msg:
+*   Writes an error message to the standard error fd.
+*   Returns the error code.
+*/
 int error_msg(char *str1, char *str2, char *str3, int erno)
 {
     ft_putstr_fd("pipex: ", 2);
@@ -29,21 +36,22 @@ void    close_fds (t_data *data)
         close(data->fd_in);
     if (data->fd_out != -1)
         close(data->fd_out);
-    if (data->pipe_fd[0] != -1)
-        close(data->pipe_fd[0]);
-    if (data->pipe_fd[1] != -1)
-        close(data->pipe_fd[1]);
+    close_pipe_fds(data);
 }
 
 /* close_pipe_fds:
-*   Closes the pipe read and write file descriptors.
+*   Closes all pipes' read and write file descriptors.
 */
 void    close_pipe_fds(t_data *data)
 {
-    if (close(data->pipe_fd[0]) == -1)
-        exit_error(error_msg("Close pipe_fd[0]", ": ", strerror(errno), EXIT_FAILURE), data);
-    if (close(data->pipe_fd[1]) == -1)
-        exit_error(error_msg("Close pipe_fd", ": ", strerror(errno), EXIT_FAILURE), data);
+    int i;
+
+    i = 0;
+    while (i < (data->nb_cmds - 1) * 2)
+    {
+        close(data->pipe_fd[i]);
+        i++;
+    }
 }
 
 /* free_strs:

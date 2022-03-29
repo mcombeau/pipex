@@ -14,11 +14,26 @@ t_data  clean_init(void)
     data.av = NULL;
     data.fd_in = -1;
     data.fd_out = -1;
-    data.pipe_fd[0] = -1;
-    data.pipe_fd[1] = -1;
+    data.pipe_fd = NULL;
     data.nb_cmds = -1;
     data.child_index = -1;
     return (data);
+}
+
+/* generate_pipes:
+*   Creates a pipe (pair of fds) for each command.
+*/
+ void   generate_pipes(t_data *data)
+ {
+     int    i;
+
+    i = 0;
+    while (i < data->nb_cmds - 1)
+    {
+        if (pipe(data->pipe_fd + 2 * i) == -1)
+            exit_error(error_msg("Could not create pipe", "", "", 1), data);
+        i++;
+    }
 }
 
 /* init:
@@ -42,5 +57,9 @@ t_data init(int ac, char **av, char **envp)
     if (data.fd_out == -1)
         exit_error(error_msg(av[ac - 1], ": ", strerror(errno), 1), &data);
     data.nb_cmds = ac - 3;
+    data.pipe_fd = malloc(sizeof * data.pipe_fd * 2 * (data.nb_cmds - 1));
+    if (!data.pipe_fd)
+        exit_error(error_msg("Could not create pipes", "", "", EXIT_FAILURE), &data);
+    generate_pipes(&data);
     return(data);
 }

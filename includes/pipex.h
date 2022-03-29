@@ -18,7 +18,7 @@ typedef struct s_data
     int     ac;
     int     fd_in;
     int     fd_out;
-    int     pipe_fd[2];
+    int     *pipe_fd;
     int     nb_cmds;
     int     child_index;
 }   t_data;
