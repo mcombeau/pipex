@@ -12,6 +12,7 @@ t_data  clean_init(void)
     data.envp = NULL;
     data.ac = -1;
     data.av = NULL;
+    data.heredoc = 0;
     data.fd_in = -1;
     data.fd_out = -1;
     data.pipe_fd = NULL;
@@ -50,13 +51,11 @@ t_data init(int ac, char **av, char **envp)
     data.envp = envp;
     data.ac = ac;
     data.av = av;
-    data.fd_in = open(av[1], O_RDONLY, 644);
-    if (data.fd_in == -1)
-        error_msg(av[1], ": ", strerror(errno), 1);
-    data.fd_out = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (data.fd_out == -1)
-        exit_error(error_msg(av[ac - 1], ": ", strerror(errno), 1), &data);
-    data.nb_cmds = ac - 3;
+    if (!ft_strncmp("here_doc", av[1], 9))
+        data.heredoc = 1;
+    get_input_file(&data);
+    get_output_file(&data);
+    data.nb_cmds = ac - 3 - data.heredoc;
     data.pipe_fd = malloc(sizeof * data.pipe_fd * 2 * (data.nb_cmds - 1));
     if (!data.pipe_fd)
         exit_error(error_msg("Could not create pipes", "", "", EXIT_FAILURE), &data);

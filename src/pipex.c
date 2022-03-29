@@ -1,7 +1,4 @@
 #include "../includes/pipex.h"
-/* TODO
-*   - heredoc
-*/
 
 /* redirect_io:
 *   Redirects the input and output file descriptors by duplicating
@@ -36,7 +33,7 @@ void    redirect_io(int input, int output, t_data *data)
     else
         redirect_io(data->pipe_fd[2 * data->child_index - 2], data->pipe_fd[2 * data->child_index + 1], data);
     close_fds(data);
-    cmd_options = ft_split(data->av[data->child_index + 2], ' ');
+    cmd_options = ft_split(data->av[data->child_index + 2 + data->heredoc], ' ');
     if (!cmd_options)
         exit_error(error_msg("unexpected error", "", "", EXIT_FAILURE), data);
     cmd_path = get_cmd(cmd_options[0], data);

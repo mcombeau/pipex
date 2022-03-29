@@ -11,6 +11,8 @@ void    exit_error(int error_status, t_data *data)
         close_fds(data);
         free(data->pipe_fd);
     }
+    if (data->heredoc == 1)
+        unlink(".heredoc.tmp");
     exit(error_status);
 }
 
