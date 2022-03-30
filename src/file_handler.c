@@ -64,7 +64,8 @@ void	get_heredoc(t_data *data)
 		line = get_next_line(STDIN_FILENO);
 		if (line == NULL)
 			exit(1);
-		if (!ft_strncmp(line, data->av[2], ft_strlen(line + 1)))
+		if (ft_strlen(data->av[2]) + 1 == ft_strlen(line)
+			&& !ft_strncmp(line, data->av[2], ft_strlen(data->av[2] + 1)))
 			break ;
 		ft_putstr_fd(line, tmp_fd);
 		free(line);
@@ -72,8 +73,5 @@ void	get_heredoc(t_data *data)
 	close(tmp_fd);
 	data->fd_in = open(".heredoc.tmp", O_RDONLY);
 	if (data->fd_in == -1)
-	{
-		unlink(".heredoc.tmp");
 		exit_error(msg("here_doc", ": ", strerror(errno), 1), data);
-	}
 }
