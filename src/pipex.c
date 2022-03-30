@@ -16,15 +16,15 @@
 *	Redirects the input and output file descriptors by duplicating
 *	the given fds to the standard input and standard output respectively.
 */
-void	redirect_io(int input, int output, t_data *data)
+void	redirect_io(int input, int output, t_data *d)
 {
 	if (dup2(input, STDIN_FILENO) == -1)
 	{
-		exit_error(error_msg("Dup2", ": ", strerror(errno), EXIT_FAILURE), data);
+		exit_error(msg("Dup2", ": ", strerror(errno), 1), d);
 	}
 	if (dup2(output, STDOUT_FILENO) == -1)
 	{
-		exit_error(error_msg("Dup2", ": ", strerror(errno), EXIT_FAILURE), data);
+		exit_error(msg("Dup2", ": ", strerror(errno), 1), d);
 	}
 }
 
@@ -33,32 +33,32 @@ void	redirect_io(int input, int output, t_data *data)
 *	the first, middle or final child.
 *	Then it parses the command it needs to execute and executes it.
 */
-void	child(t_data *data)
+void	child(t_data *d)
 {
 	char	**cmd_options;
 	char	*cmd_path;
 
-	if (data->child_index == 0)
-		redirect_io(data->fd_in, data->pipe_fd[1], data);
-	else if (data->child_index == data->nb_cmds - 1)
-		redirect_io(data->pipe_fd[2 * data->child_index - 2], data->fd_out, data);
+	if (d->child == 0)
+		redirect_io(d->fd_in, d->pipe[1], d);
+	else if (d->child == d->nb_cmds - 1)
+		redirect_io(d->pipe[2 * d->child - 2], d->fd_out, d);
 	else
-		redirect_io(data->pipe_fd[2 * data->child_index - 2], data->pipe_fd[2 * data->child_index + 1], data);
-	close_fds(data);
-	cmd_options = ft_split(data->av[data->child_index + 2 + data->heredoc], ' ');
+		redirect_io(d->pipe[2 * d->child - 2], d->pipe[2 * d->child + 1], d);
+	close_fds(d);
+	cmd_options = ft_split(d->av[d->child + 2 + d->heredoc], ' ');
 	if (!cmd_options)
-		exit_error(error_msg("unexpected error", "", "", EXIT_FAILURE), data);
-	cmd_path = get_cmd(cmd_options[0], data);
+		exit_error(msg("unexpected error", "", "", 1), d);
+	cmd_path = get_cmd(cmd_options[0], d);
 	if (!cmd_path)
 	{
 		free_strs(cmd_path, cmd_options);
-		exit_error(error_msg(data->av[data->child_index + 2], ": ", "Command not found", EXIT_FAILURE), data);
+		exit_error(msg(d->av[d->child + 2], ": ", "Command not found", 1), d);
 	}
-	if (execve(cmd_path, cmd_options, data->envp) == -1)
+	if (execve(cmd_path, cmd_options, d->envp) == -1)
 	{
-		error_msg(cmd_options[0], ": ", strerror(errno), EXIT_FAILURE);
+		msg(cmd_options[0], ": ", strerror(errno), 1);
 		free_strs(cmd_path, cmd_options);
-		exit_error(EXIT_FAILURE, data);
+		exit_error(1, d);
 	}
 }
 
@@ -67,27 +67,27 @@ void	child(t_data *data)
 *	child.
 *	Returns the exit status code of the last child process.
 */
-int	parent(t_data *data)
+int	parent(t_data *d)
 {
 	pid_t	wpid;
 	int		status;
 	int		exit_code;
 
-	close_fds(data);
-	data->child_index--;
+	close_fds(d);
+	d->child--;
 	exit_code = 1;
-	while (data->child_index >= 0)
+	while (d->child >= 0)
 	{
-		wpid = waitpid(data->pids[data->child_index], &status, 0);
-		if (wpid == data->pids[data->nb_cmds - 1])
+		wpid = waitpid(d->pids[d->child], &status, 0);
+		if (wpid == d->pids[d->nb_cmds - 1])
 		{
-			if ((data->child_index == (data->nb_cmds - 1)) && WIFEXITED(status))
+			if ((d->child == (d->nb_cmds - 1)) && WIFEXITED(status))
 				exit_code = WEXITSTATUS(status);
 		}
-		data->child_index--;
+		d->child--;
 	}
-	free(data->pipe_fd);
-	free(data->pids);
+	free(d->pipe);
+	free(d->pids);
 	return (exit_code);
 }
 
@@ -96,38 +96,38 @@ int	parent(t_data *data)
 *	the parent to wait for them to finish their tasks.
 *	Returns: the last child's exit code.
 */
-int	pipex(t_data *data)
+int	pipex(t_data *d)
 {
 	int		exit_code;
 
-	if (pipe(data->pipe_fd) == -1)
-		exit_error(error_msg("pipe", ": ", strerror(errno), EXIT_FAILURE), data);
-	data->child_index = 0;
-	while (data->child_index < data->nb_cmds)
+	if (pipe(d->pipe) == -1)
+		exit_error(msg("pipe", ": ", strerror(errno), 1), d);
+	d->child = 0;
+	while (d->child < d->nb_cmds)
 	{
-		data->pids[data->child_index] = fork();
-		if (data->pids[data->child_index] == -1)
-			exit_error(error_msg("fork", ": ", strerror(errno), EXIT_FAILURE), data);
-		else if (data->pids[data->child_index] == 0)
-			child(data);
-		data->child_index++;
+		d->pids[d->child] = fork();
+		if (d->pids[d->child] == -1)
+			exit_error(msg("fork", ": ", strerror(errno), 1), d);
+		else if (d->pids[d->child] == 0)
+			child(d);
+		d->child++;
 	}
-	exit_code = parent(data);
+	exit_code = parent(d);
 	return (exit_code);
 }
 
 /* main:
-*	Launches data structure initialization and starts pipex.
+*	Launches d structure initialization and starts pipex.
 *	Returns the last child's exit code as pipex's exit code.
 */
 int	main(int ac, char **av, char **envp)
 {
-	t_data	data;
+	t_data	d;
 	int		exit_code;
 
 	if (ac < 5)
-		return (error_msg("Usage: ", "./pipex file1 cmd1 cmd2 file2.", "", EXIT_FAILURE));
-	data = init(ac, av, envp);
-	exit_code = pipex(&data);
+		return (msg("Usage: ", "./pipex file1 cmd1 cmd2 file2.", "", 1));
+	d = init(ac, av, envp);
+	exit_code = pipex(&d);
 	return (exit_code);
 }

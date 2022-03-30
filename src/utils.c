@@ -21,8 +21,8 @@ void	exit_error(int error_status, t_data *data)
 	if (data)
 	{
 		close_fds(data);
-		if (data->pipe_fd != NULL)
-			free(data->pipe_fd);
+		if (data->pipe != NULL)
+			free(data->pipe);
 		if (data->pids != NULL)
 			free(data->pids);
 	}
@@ -35,7 +35,7 @@ void	exit_error(int error_status, t_data *data)
 *	Writes an error message to the standard error fd.
 *	Returns the error code.
 */
-int	error_msg(char *str1, char *str2, char *str3, int erno)
+int	msg(char *str1, char *str2, char *str3, int erno)
 {
 	ft_putstr_fd("pipex: ", 2);
 	ft_putstr_fd(str1, 2);
@@ -66,7 +66,7 @@ void	close_pipe_fds(t_data *data)
 	i = 0;
 	while (i < (data->nb_cmds - 1) * 2)
 	{
-		close(data->pipe_fd[i]);
+		close(data->pipe[i]);
 		i++;
 	}
 }

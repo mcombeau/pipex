@@ -28,9 +28,9 @@ t_data	clean_init(void)
 	data.heredoc = 0;
 	data.fd_in = -1;
 	data.fd_out = -1;
-	data.pipe_fd = NULL;
+	data.pipe = NULL;
 	data.nb_cmds = -1;
-	data.child_index = -1;
+	data.child = -1;
 	data.pids = NULL;
 	return (data);
 }
@@ -45,8 +45,8 @@ void	generate_pipes(t_data *data)
 	i = 0;
 	while (i < data->nb_cmds - 1)
 	{
-		if (pipe(data->pipe_fd + 2 * i) == -1)
-			exit_error(error_msg("Could not create pipe", "", "", 1), data);
+		if (pipe(data->pipe + 2 * i) == -1)
+			exit_error(msg("Could not create pipe", "", "", 1), data);
 		i++;
 	}
 }
@@ -72,10 +72,10 @@ t_data	init(int ac, char **av, char **envp)
 	data.nb_cmds = ac - 3 - data.heredoc;
 	data.pids = malloc(sizeof * data.pids * data.nb_cmds);
 	if (!data.pids)
-		exit_error(error_msg("PID error", strerror(errno), "", EXIT_FAILURE), &data);
-	data.pipe_fd = malloc(sizeof * data.pipe_fd * 2 * (data.nb_cmds - 1));
-	if (!data.pipe_fd)
-		exit_error(error_msg("Pipe error", "", "", EXIT_FAILURE), &data);
+		exit_error(msg("PID error", strerror(errno), "", 1), &data);
+	data.pipe = malloc(sizeof * data.pipe * 2 * (data.nb_cmds - 1));
+	if (!data.pipe)
+		exit_error(msg("Pipe error", "", "", 1), &data);
 	generate_pipes(&data);
 	return (data);
 }

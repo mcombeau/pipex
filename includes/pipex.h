@@ -32,9 +32,9 @@ typedef struct s_data
 	int		heredoc;
 	int		fd_in;
 	int		fd_out;
-	int		*pipe_fd;
+	int		*pipe;
 	int		nb_cmds;
-	int		child_index;
+	int		child;
 	int		*pids;
 }		t_data;
 
@@ -46,7 +46,7 @@ char	*get_cmd(char *cmd, t_data *data);
 
 /*  utils.c */
 void	exit_error(int error_status, t_data *data);
-int		error_msg(char *str1, char *str2, char *str3, int erno);
+int		msg(char *str1, char *str2, char *str3, int erno);
 void	close_fds(t_data *data);
 void	close_pipe_fds(t_data *data);
 void	free_strs(char *str, char **strs);

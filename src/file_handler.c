@@ -25,7 +25,7 @@ void	get_input_file(t_data *d)
 	{
 		d->fd_in = open(d->av[1], O_RDONLY, 644);
 		if (d->fd_in == -1)
-			error_msg(d->av[1], ": ", strerror(errno), 1);
+			msg(d->av[1], ": ", strerror(errno), 1);
 	}
 }
 
@@ -40,7 +40,7 @@ void	get_output_file(t_data *d)
 	else
 		d->fd_out = open(d->av[d->ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (d->fd_out == -1)
-		error_msg(d->av[d->ac - 1], ": ", strerror(errno), 1);
+		msg(d->av[d->ac - 1], ": ", strerror(errno), 1);
 }
 
 /* get_heredoc:
@@ -56,7 +56,7 @@ void	get_heredoc(t_data *data)
 
 	tmp_fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (tmp_fd == -1)
-		exit_error(error_msg("here_doc", ": ", strerror(errno), 1), data);
+		exit_error(msg("here_doc", ": ", strerror(errno), 1), data);
 	line = "";
 	while (1)
 	{
@@ -64,7 +64,7 @@ void	get_heredoc(t_data *data)
 		line = get_next_line(STDIN_FILENO);
 		if (line == NULL)
 			exit(1);
-		if (!ft_strncmp(data->av[2], line, ft_strlen(data->av[2] + 1)))
+		if (!ft_strncmp(line, data->av[2], ft_strlen(line + 1)))
 			break ;
 		ft_putstr_fd(line, tmp_fd);
 		free(line);
@@ -74,6 +74,6 @@ void	get_heredoc(t_data *data)
 	if (data->fd_in == -1)
 	{
 		unlink(".heredoc.tmp");
-		exit_error(error_msg("here_doc", ": ", strerror(errno), 1), data);
+		exit_error(msg("here_doc", ": ", strerror(errno), 1), data);
 	}
 }
