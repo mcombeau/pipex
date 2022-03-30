@@ -20,7 +20,6 @@
 # include <sys/wait.h>
 # include <string.h>
 # include <errno.h>
-# include "../libft/libft.h"
 # include "get_next_line.h"
 
 /*  Data    */
@@ -50,6 +49,18 @@ int		msg(char *str1, char *str2, char *str3, int erno);
 void	close_fds(t_data *data);
 void	close_pipe_fds(t_data *data);
 void	free_strs(char *str, char **strs);
+
+/*	ft functions */
+void	ft_putchar_fd(char c, int fd);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
+char	**ft_split(char const *s, char c);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *str);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strnstr(const char *s1, const char *s2, size_t n);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 /* file_handler.c */
 void	get_input_file(t_data *data);

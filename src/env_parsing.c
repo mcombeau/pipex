@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-#include "../libft/libft.h"
 
 /* get_env_path:
 *	Parses the envp environment variable to find the "PATH=" line 
