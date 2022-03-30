@@ -125,8 +125,12 @@ int	main(int ac, char **av, char **envp)
 	t_data	d;
 	int		exit_code;
 
-	if (ac < 5)
-		return (msg("Usage: ", "./pipex file1 cmd1 cmd2 file2.", "", 1));
+	if (ft_strncmp("here_doc", av[1], 9) && ac < 5)
+		return (msg("Usage: ",
+				"./pipex file1 cmd1 cmd2 ... cmdn file2.", "", 1));
+	else if (!ft_strncmp("here_doc", av[1], 9) && ac < 6)
+		return (msg("Usage: ",
+				"./pipex here_doc LIMITER cmd1 cmd2 ... cmdn file2.", "", 1));
 	d = init(ac, av, envp);
 	exit_code = pipex(&d);
 	return (exit_code);
