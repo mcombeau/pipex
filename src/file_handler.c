@@ -49,14 +49,14 @@ void	get_output_file(t_data *d)
 *	Then, it sets pipex's input file descriptor as that temporary
 *	file.
 */
-void	get_heredoc(t_data *data)
+void	get_heredoc(t_data *d)
 {
 	int		tmp_fd;
 	char	*line;
 
 	tmp_fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (tmp_fd == -1)
-		exit_error(msg("here_doc", ": ", strerror(errno), 1), data);
+		exit_error(msg("here_doc", ": ", strerror(errno), 1), d);
 	line = "";
 	while (1)
 	{
@@ -64,14 +64,14 @@ void	get_heredoc(t_data *data)
 		line = get_next_line(STDIN_FILENO);
 		if (line == NULL)
 			exit(1);
-		if (ft_strlen(data->av[2]) + 1 == ft_strlen(line)
-			&& !ft_strncmp(line, data->av[2], ft_strlen(data->av[2] + 1)))
+		if (ft_strlen(d->av[2]) + 1 == ft_strlen(line)
+			&& !ft_strncmp(line, d->av[2], ft_strlen(d->av[2] + 1)))
 			break ;
 		ft_putstr_fd(line, tmp_fd);
 		free(line);
 	}
 	close(tmp_fd);
-	data->fd_in = open(".heredoc.tmp", O_RDONLY);
-	if (data->fd_in == -1)
-		exit_error(msg("here_doc", ": ", strerror(errno), 1), data);
+	d->fd_in = open(".heredoc.tmp", O_RDONLY);
+	if (d->fd_in == -1)
+		exit_error(msg("here_doc", ": ", strerror(errno), 1), d);
 }
