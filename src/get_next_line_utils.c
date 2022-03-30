@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/get_next_line.h"
+#include "../includes/get_next_line.h"
 
 int	contains_newline(const char *s)
 {

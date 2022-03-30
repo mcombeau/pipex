@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/get_next_line.h"
+#include "../includes/get_next_line.h"
 
 char	*get_before_newline(const char *s)
 {

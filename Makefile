@@ -20,8 +20,8 @@ SRC	= pipex.c \
 	ft_strnstr.c \
 	ft_substr.c \
 	ft_strlcpy.c \
-	get_next_line/get_next_line.c \
-	get_next_line/get_next_line_utils.c
+	get_next_line.c \
+	get_next_line_utils.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
