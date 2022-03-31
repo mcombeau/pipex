@@ -63,7 +63,7 @@ void	get_heredoc(t_data *d)
 		ft_putstr_fd("here_doc > ", 1);
 		line = get_next_line(STDIN_FILENO);
 		if (line == NULL)
-			exit(1);
+			break ;
 		if (ft_strlen(d->av[2]) + 1 == ft_strlen(line)
 			&& !ft_strncmp(line, d->av[2], ft_strlen(d->av[2] + 1)))
 			break ;
