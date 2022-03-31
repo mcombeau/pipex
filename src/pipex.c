@@ -113,6 +113,8 @@ int	pipex(t_data *d)
 		d->child++;
 	}
 	exit_code = parent(d);
+	if (d->heredoc == 1)
+		unlink(".heredoc.tmp");
 	return (exit_code);
 }
 
