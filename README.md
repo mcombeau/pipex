@@ -7,7 +7,7 @@ $ < input_file command1 | command2 > output file
 ```
 
 ## Status
-Work in progress.
+Awaiting evaluation.
 
 ## Usage
 To compile, use ```make```, ```make all``` or ```make bonus```.
