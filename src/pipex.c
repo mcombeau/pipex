@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:00 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/03/29 19:09:17 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/14 13:41:57 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,16 @@ int	main(int ac, char **av, char **envp)
 	t_data	d;
 	int		exit_code;
 
-	if (ft_strncmp("here_doc", av[1], 9) && ac < 5)
+	if (ac < 5)
+	{
+		if (ac >= 2 && !ft_strncmp("here_doc", av[1], 9))
+			return (msg("Usage: ",
+				"./pipex here_doc LIMITER cmd1 cmd2 ... cmdn file2.", "", 1));
 		return (msg("Usage: ",
 				"./pipex file1 cmd1 cmd2 ... cmdn file2.", "", 1));
-	else if (!ft_strncmp("here_doc", av[1], 9) && ac < 6)
+		
+	}
+	else if (ac < 6 && !ft_strncmp("here_doc", av[1], 9))
 		return (msg("Usage: ",
 				"./pipex here_doc LIMITER cmd1 cmd2 ... cmdn file2.", "", 1));
 	d = init(ac, av, envp);
