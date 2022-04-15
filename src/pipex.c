@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:00 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/15 05:58:59 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/15 06:12:00 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,14 @@
 */
 void	redirect_io(int input, int output, t_data *d)
 {
-	dup2(input, STDIN_FILENO);
-	dup2(output, STDOUT_FILENO);
+	if (dup2(input, STDIN_FILENO) == -1)
+	{
+		exit_error(1, d);
+	}
+	if (dup2(output, STDOUT_FILENO) == -1)
+	{
+		exit_error(1, d);
+	}
 }
 
 /* child:
@@ -133,6 +139,8 @@ int	main(int ac, char **av, char **envp)
 	else if (ac < 6 && !ft_strncmp("here_doc", av[1], 9))
 		return (msg("Usage: ",
 				"./pipex here_doc LIMITER cmd1 cmd2 ... cmdn file2.", "", 1));
+	if (!envp || envp[0][0] == '\0')
+		exit_error(msg("Unexpected error.", "", "", 1), &d);
 	d = init(ac, av, envp);
 	exit_code = pipex(&d);
 	return (exit_code);
