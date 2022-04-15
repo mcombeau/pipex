@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:00 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/14 13:41:57 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/15 05:58:59 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,8 @@
 */
 void	redirect_io(int input, int output, t_data *d)
 {
-	if (dup2(input, STDIN_FILENO) == -1)
-	{
-		exit_error(msg("Dup2", ": ", strerror(errno), 1), d);
-	}
-	if (dup2(output, STDOUT_FILENO) == -1)
-	{
-		exit_error(msg("Dup2", ": ", strerror(errno), 1), d);
-	}
+	dup2(input, STDIN_FILENO);
+	dup2(output, STDOUT_FILENO);
 }
 
 /* child:
