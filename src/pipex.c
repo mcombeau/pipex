@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:00 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/21 13:01:59 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/21 15:07:04 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	child(t_data *d)
 	if (!cmd_path)
 	{
 		free_strs(cmd_path, cmd_options);
-		exit_error(msg(d->av[d->child + 2], ": ", "Command not found", 1), d);
+		exit_error(msg("command not found", ": ", d->av[d->child + 2], 1), d);
 	}
 	if (execve(cmd_path, cmd_options, d->envp) == -1)
 	{
@@ -131,10 +131,10 @@ int	main(int ac, char **av, char **envp)
 	{
 		if (ac >= 2 && !ft_strncmp("here_doc", av[1], 9))
 			return (msg("Usage: ",
-				"./pipex here_doc LIMITER cmd1 cmd2 ... cmdn file2.", "", 1));
+					"./pipex here_doc LIMITER cmd1 cmd2 ... cmdn file2.",
+					"", 1));
 		return (msg("Usage: ",
 				"./pipex file1 cmd1 cmd2 ... cmdn file2.", "", 1));
-		
 	}
 	else if (ac < 6 && !ft_strncmp("here_doc", av[1], 9))
 		return (msg("Usage: ",

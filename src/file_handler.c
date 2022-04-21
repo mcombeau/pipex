@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:21:42 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/21 13:00:31 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/21 15:04:10 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	get_input_file(t_data *d)
 	{
 		d->fd_in = open(d->av[1], O_RDONLY, 644);
 		if (d->fd_in == -1)
-			msg(d->av[1], ": ", strerror(errno), 1);
+			msg(strerror(errno), ": ", d->av[1], 1);
 	}
 }
 
@@ -40,7 +40,7 @@ void	get_output_file(t_data *d)
 	else
 		d->fd_out = open(d->av[d->ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (d->fd_out == -1)
-		msg(d->av[d->ac - 1], ": ", strerror(errno), 1);
+		msg(strerror(errno), ": ", d->av[d->ac - 1], 1);
 }
 
 /* get_heredoc:
