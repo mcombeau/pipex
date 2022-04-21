@@ -6,11 +6,11 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 18:18:15 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/06 15:09:40 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:01:06 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 void	ft_bzero(void *s, size_t n)
 {

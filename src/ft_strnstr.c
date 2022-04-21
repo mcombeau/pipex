@@ -6,11 +6,11 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 23:07:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/03 16:33:24 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:01:34 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 /*
 	DESCRIPTION :

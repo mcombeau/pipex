@@ -6,11 +6,11 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:21:50 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/03/29 19:00:33 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:01:52 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 /* clean_init:
 *	Initializes a data structure with no data in it. Sets strings to NULL

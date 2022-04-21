@@ -6,11 +6,11 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:00 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/15 06:12:00 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:01:59 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 /* redirect_io:
 *	Redirects the input and output file descriptors by duplicating

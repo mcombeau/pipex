@@ -6,11 +6,11 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:21:18 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/03/29 18:50:38 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:00:17 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 /* get_env_path:
 *	Parses the envp environment variable to find the "PATH=" line 

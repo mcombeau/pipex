@@ -6,11 +6,11 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:10 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/03/29 19:16:42 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:02:05 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 /* exit_error:
 *	In case of error, prints an error message and closes any open

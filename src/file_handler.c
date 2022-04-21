@@ -6,11 +6,11 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:21:42 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/03/29 18:56:15 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/21 13:00:31 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "pipex.h"
 
 /* get_input_file:
 *	Sets the input file descriptor for pipex.
