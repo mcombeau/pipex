@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:00 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/22 16:14:08 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/22 17:29:13 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	redirect_io(int input, int output, t_data *d)
 *	the first, middle or final child.
 *	Then it parses the command it needs to execute and executes it.
 */
-void	child(t_data *d)
+void	child(t_data *d, char *cmd_path, char **cmd_options)
 {
-	char	**cmd_options;
-	char	*cmd_path;
+//	char	**cmd_options;
+//	char	*cmd_path;
 
 	if (d->child == 0)
 		redirect_io(d->fd_in, d->pipe[1], d);
@@ -55,7 +55,7 @@ void	child(t_data *d)
 	else
 		redirect_io(d->pipe[2 * d->child - 2], d->pipe[2 * d->child + 1], d);
 	close_fds(d);
-	cmd_options = ft_split(d->av[d->child + 2 + d->heredoc], ' ');
+/*	cmd_options = ft_split(d->av[d->child + 2 + d->heredoc], ' ');
 	if (!cmd_options)
 		exit_error(msg("unexpected error", "", "", 1), d);
 	cmd_path = get_cmd(cmd_options[0], d);
@@ -64,6 +64,9 @@ void	child(t_data *d)
 		free_strs(cmd_path, cmd_options);
 		exit_error(msg("command not found", ": ", d->av[d->child + 2], 1), d);
 	}
+*/	
+	if (cmd_options == NULL || cmd_path == NULL)
+		exit_error(1, d);
 	if (execve(cmd_path, cmd_options, d->envp) == -1)
 	{
 		msg(cmd_options[0], ": ", strerror(errno), 1);
@@ -109,17 +112,28 @@ int	parent(t_data *d)
 int	pipex(t_data *d)
 {
 	int		exit_code;
+	char	**cmd;
+	char	*cmd_path;
 
 	if (pipe(d->pipe) == -1)
 		exit_error(msg("pipe", ": ", strerror(errno), 1), d);
 	d->child = 0;
 	while (d->child < d->nb_cmds)
 	{
+		cmd = ft_split(d->av[d->child + 2 + d->heredoc], ' ');
+		if (!cmd)
+			exit_error(msg("unexpected error", "", "", 1), d);
+		cmd_path = get_cmd(cmd[0], d);
+		if (!cmd_path)
+		{
+			free_strs(cmd_path, cmd);
+			msg("command not found", ": ", d->av[d->child + 2], 1);
+		}
 		d->pids[d->child] = fork();
 		if (d->pids[d->child] == -1)
 			exit_error(msg("fork", ": ", strerror(errno), 1), d);
 		else if (d->pids[d->child] == 0)
-			child(d);
+			child(d, cmd_path, cmd);
 		d->child++;
 	}
 	exit_code = parent(d);
