@@ -6,19 +6,9 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:00 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/22 17:29:13 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/22 18:28:48 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-/* TODO: When two fake commands are asked for, children write error
-			to stderr simultaneously!!
-	Result:
-		ppiippeexx::  ccoommmandm annot foudn notd:  fsoa
-und: sa
-
-	FIX THIS!
-*/
 
 #include "pipex.h"
 
@@ -45,9 +35,6 @@ void	redirect_io(int input, int output, t_data *d)
 */
 void	child(t_data *d, char *cmd_path, char **cmd_options)
 {
-//	char	**cmd_options;
-//	char	*cmd_path;
-
 	if (d->child == 0)
 		redirect_io(d->fd_in, d->pipe[1], d);
 	else if (d->child == d->nb_cmds - 1)
@@ -55,16 +42,6 @@ void	child(t_data *d, char *cmd_path, char **cmd_options)
 	else
 		redirect_io(d->pipe[2 * d->child - 2], d->pipe[2 * d->child + 1], d);
 	close_fds(d);
-/*	cmd_options = ft_split(d->av[d->child + 2 + d->heredoc], ' ');
-	if (!cmd_options)
-		exit_error(msg("unexpected error", "", "", 1), d);
-	cmd_path = get_cmd(cmd_options[0], d);
-	if (!cmd_path)
-	{
-		free_strs(cmd_path, cmd_options);
-		exit_error(msg("command not found", ": ", d->av[d->child + 2], 1), d);
-	}
-*/	
 	if (cmd_options == NULL || cmd_path == NULL)
 		exit_error(1, d);
 	if (execve(cmd_path, cmd_options, d->envp) == -1)
