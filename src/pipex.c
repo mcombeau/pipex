@@ -6,9 +6,19 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:00 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/21 15:07:04 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/22 16:14:08 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+/* TODO: When two fake commands are asked for, children write error
+			to stderr simultaneously!!
+	Result:
+		ppiippeexx::  ccoommmandm annot foudn notd:  fsoa
+und: sa
+
+	FIX THIS!
+*/
 
 #include "pipex.h"
 
