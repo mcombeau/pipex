@@ -6,11 +6,26 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:10 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/24 14:01:34 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/24 14:08:04 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+/* close_pipe_fds:
+*	Closes all pipes' read and write file descriptors.
+*/
+static void	close_pipe_fds(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < (data->nb_cmds - 1) * 2)
+	{
+		close(data->pipe[i]);
+		i++;
+	}
+}
 
 /* exit_error:
 *	In case of error, prints an error message and closes any open
@@ -56,21 +71,6 @@ void	close_fds(t_data *data)
 	if (data->fd_out != -1)
 		close(data->fd_out);
 	close_pipe_fds(data);
-}
-
-/* close_pipe_fds:
-*	Closes all pipes' read and write file descriptors.
-*/
-void	close_pipe_fds(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < (data->nb_cmds - 1) * 2)
-	{
-		close(data->pipe[i]);
-		i++;
-	}
 }
 
 /* free_strs:

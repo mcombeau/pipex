@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:00 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/24 13:58:42 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/24 14:06:51 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 *	Redirects the input and output file descriptors by duplicating
 *	the given fds to the standard input and standard output respectively.
 */
-void	redirect_io(int input, int output, t_data *d)
+static void	redirect_io(int input, int output, t_data *d)
 {
 	if (dup2(input, STDIN_FILENO) == -1)
 	{
@@ -33,7 +33,7 @@ void	redirect_io(int input, int output, t_data *d)
 *	the first, middle or final child.
 *	Then it parses the command it needs to execute and executes it.
 */
-void	child(t_data *d)
+static void	child(t_data *d)
 {
 	if (d->child == 0)
 		redirect_io(d->fd_in, d->pipe[1], d);
@@ -53,7 +53,7 @@ void	child(t_data *d)
 *	child.
 *	Returns the exit status code of the last child process.
 */
-int	parent(t_data *d)
+static int	parent(t_data *d)
 {
 	pid_t	wpid;
 	int		status;
@@ -82,7 +82,7 @@ int	parent(t_data *d)
 *	the parent to wait for them to finish their tasks.
 *	Returns: the last child's exit code.
 */
-int	pipex(t_data *d)
+static int	pipex(t_data *d)
 {
 	int		exit_code;
 

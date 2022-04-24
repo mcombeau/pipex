@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:21:50 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/24 13:54:28 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/24 14:05:50 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 *	initialization.
 *	Returns the newly initialized data structure.
 */
-t_data	clean_init(void)
+static t_data	clean_init(void)
 {
 	t_data	data;
 
@@ -40,7 +40,7 @@ t_data	clean_init(void)
 /* generate_pipes:
 *	Creates a pipe (pair of fds) for each command.
 */
-void	generate_pipes(t_data *data)
+static void	generate_pipes(t_data *data)
 {
 	int	i;
 
