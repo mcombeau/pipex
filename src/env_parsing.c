@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:21:18 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/21 13:00:17 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/24 13:37:19 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ char	*get_cmd(char *cmd, t_data *data)
 	if (!env_paths)
 		return (NULL);
 	cmd_path = get_cmd_path(cmd, env_paths);
+	if (!cmd_path)
+		msg("command not found", ": ", data->av[data->child + 2], 1);
 	free_strs(NULL, env_paths);
 	return (cmd_path);
 }

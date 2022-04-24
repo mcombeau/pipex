@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:36 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/21 15:04:57 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/24 13:53:43 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_data
 	int		nb_cmds;
 	int		child;
 	int		*pids;
+	char	**cmd_options;
+	char	*cmd_path;
 }		t_data;
 
 /*  initialization.c    */

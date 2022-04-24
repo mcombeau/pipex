@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:10 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/21 13:02:05 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/24 14:01:34 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	exit_error(int error_status, t_data *data)
 			free(data->pipe);
 		if (data->pids != NULL)
 			free(data->pids);
+		if (data->cmd_options != NULL || data->cmd_path != NULL)
+			free_strs(data->cmd_path, data->cmd_options);
 	}
 	if (data->heredoc == 1)
 		unlink(".heredoc.tmp");

@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:21:50 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/21 13:01:52 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/24 13:54:28 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_data	clean_init(void)
 	data.nb_cmds = -1;
 	data.child = -1;
 	data.pids = NULL;
+	data.cmd_options = NULL;
+	data.cmd_path = NULL;
 	return (data);
 }
 
