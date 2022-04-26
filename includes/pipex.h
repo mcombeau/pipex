@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:22:36 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/24 13:53:43 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/24 14:07:39 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char	*get_cmd(char *cmd, t_data *data);
 void	exit_error(int error_status, t_data *data);
 int		msg(char *str1, char *str2, char *str3, int erno);
 void	close_fds(t_data *data);
-void	close_pipe_fds(t_data *data);
 void	free_strs(char *str, char **strs);
 
 /*	ft functions */
