@@ -31,15 +31,11 @@ INC		= -I ./includes/
 all: $(NAME)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
+	@mkdir -p $(OBJ_PATH) $(OBJ_PATH)get_next_line/
 	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
-$(OBJS): $(OBJ_PATH)
-
-$(OBJ_PATH):
-	mkdir $(OBJ_PATH) $(OBJ_PATH)get_next_line/
-
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(INC)
+	$(CC) $(CFLAGS) $(OBJS) -o $@
 
 bonus: all
 
