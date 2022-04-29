@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 14:06:51 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/21 13:02:54 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/29 11:10:47 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,10 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+	{
+		ft_free_strs(&keep, NULL, NULL);
 		return (NULL);
+	}
 	line = NULL;
 	tmp = NULL;
 	ft_read_line(fd, &keep, &tmp);

@@ -6,7 +6,7 @@
 /*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 18:21:42 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/04/21 15:04:10 by mcombeau         ###   ########.fr       */
+/*   Updated: 2022/04/29 11:19:40 by mcombeau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,12 @@
 void	get_input_file(t_data *d)
 {
 	if (d->heredoc == 1)
+	{
 		get_heredoc(d);
+		d->fd_in = open(".heredoc.tmp", O_RDONLY);
+		if (d->fd_in == -1)
+			exit_error(msg("here_doc", ": ", strerror(errno), 1), d);
+	}
 	else
 	{
 		d->fd_in = open(d->av[1], O_RDONLY, 644);
@@ -52,26 +57,26 @@ void	get_output_file(t_data *d)
 void	get_heredoc(t_data *d)
 {
 	int		tmp_fd;
+	int		stdin_fd;
 	char	*line;
 
 	tmp_fd = open(".heredoc.tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	stdin_fd = dup(STDIN_FILENO);
 	if (tmp_fd == -1)
 		exit_error(msg("here_doc", ": ", strerror(errno), 1), d);
 	line = "";
 	while (1)
 	{
 		ft_putstr_fd("here_doc > ", 1);
-		line = get_next_line(STDIN_FILENO);
+		line = get_next_line(stdin_fd);
 		if (line == NULL)
-			exit_error(msg("here_doc", ": ", "read error", 1), d);
+			break ;
 		if (ft_strlen(d->av[2]) + 1 == ft_strlen(line)
 			&& !ft_strncmp(line, d->av[2], ft_strlen(d->av[2] + 1)))
-			break ;
-		ft_putstr_fd(line, tmp_fd);
+			close(stdin_fd);
+		else
+			ft_putstr_fd(line, tmp_fd);
 		free(line);
 	}
 	close(tmp_fd);
-	d->fd_in = open(".heredoc.tmp", O_RDONLY);
-	if (d->fd_in == -1)
-		exit_error(msg("here_doc", ": ", strerror(errno), 1), d);
 }
