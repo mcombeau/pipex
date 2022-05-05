@@ -1,10 +1,17 @@
 # pipex
 pipex is a 42 school project aimed to better understand shell redirection and pipes, by handling them in C.
 
-This pipex program takes an input file, performs a command on it, pipes the result to another command which then writes the result to an output file. The result is virtually identical to this kind of shell command:
+This pipex program takes an input file, performs a command on it, pipes the result to another command which then writes its result to an output file. The result is virtually identical to this kind of shell command:
 ```
 $ < input_file command1 | command2 > output file
 ```
+---
+
+:us: Read my article in English about this project: [Pipex: Reproducing the Pipe Operator “|” in C](https://www.codequoi.com/en/pipex-reproducing-the-pipe-operator-in-c/)
+
+:fr: Lire mon article en français sur ce projet :  [Pipex : reproduire l’opérateur pipe « | » en C](https://www.codequoi.com/pipex-reproduire-operateur-pipe-en-c/)
+
+---
 
 ## Status
 Awaiting evaluation.
