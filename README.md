@@ -14,7 +14,7 @@ $ < input_file command1 | command2 > output file
 ---
 
 ## Status
-Awaiting evaluation.
+Finished 01/05/2022. Grade: 118% (here_doc bonus failed: prints an extra prompt line after LIMITER is given as input.)
 
 ## Usage
 To compile, use ```make```, ```make all``` or ```make bonus```.
