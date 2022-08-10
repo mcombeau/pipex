@@ -1,4 +1,9 @@
 # pipex
+
+<p align="center">
+  <img src="https://github.com/mcombeau/mcombeau/blob/main/42_badges/pipexe.png" alt="Pipex 42 project badge"/>
+</p>
+
 pipex is a 42 school project aimed to better understand shell redirection and pipes, by handling them in C.
 
 This pipex program takes an input file, performs a command on it, pipes the result to another command which then writes its result to an output file. The result is virtually identical to this kind of shell command:
