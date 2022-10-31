@@ -12,9 +12,15 @@ $ < input_file command1 | command2 > output file
 ```
 ---
 
-:us: Read my article in English about this project: [Pipex: Reproducing the Pipe Operator “|” in C](https://www.codequoi.com/en/pipex-reproducing-the-pipe-operator-in-c/)
+:us: Read my articles in English about the concepts tackled in this project: 
 
-:fr: Lire mon article en français sur ce projet :  [Pipex : reproduire l’opérateur pipe « | » en C](https://www.codequoi.com/pipex-reproduire-operateur-pipe-en-c/)
+* [Creating and Killing Child Processes in C](https://www.codequoi.com/en/creating-and-killing-child-processes-in-c/)
+* [Pipe: an Inter-Process Communication Method](https://www.codequoi.com/en/pipe-an-inter-process-communication-method/)
+
+:fr: Lire mes article en français sur les concepts abordés ce projet :
+
+* [Créer et tuer des processus fils en C](https://www.codequoi.com/creer-et-tuer-des-processus-fils-en-c/)
+* [Pipe : une méthode de communication inter-processus](https://www.codequoi.com/pipe-une-methode-de-communication-inter-processus/)
 
 ---
 
