@@ -48,7 +48,7 @@ $ << LIMITER command1 | command2 | ... | commandn >> output_file
 * [Creating and Killing Child Processes in C](https://www.codequoi.com/en/creating-and-killing-child-processes-in-c/)
 * [Pipe: an Inter-Process Communication Method](https://www.codequoi.com/en/pipe-an-inter-process-communication-method/)
 
-:fr: Lire mes article en français sur les concepts abordés dans ce projet :
+:fr: Lire mes articles en français sur les concepts abordés dans ce projet :
 
 * [Créer et tuer des processus fils en C](https://www.codequoi.com/creer-et-tuer-des-processus-fils-en-c/)
 * [Pipe : une méthode de communication inter-processus](https://www.codequoi.com/pipe-une-methode-de-communication-inter-processus/)
